@@ -1,6 +1,8 @@
 import { useState, memo, useCallback } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
+import styles from "../styles/components/Map.module.scss";
+
 const containerStyle = {
   width: "600px",
   height: "500px",
@@ -12,6 +14,8 @@ const center = {
 };
 
 const zoom = 8;
+
+const mapStyles = require("../settings/MapStyles.json");
 
 export default function Map({ apiKey }) {
   const { isLoaded } = useJsApiLoader({
@@ -32,18 +36,26 @@ export default function Map({ apiKey }) {
     setMap(null);
   }, []);
 
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={zoom}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {/* Child components, such as markers, info windows, etc. */}
-      <></>
-    </GoogleMap>
-  ) : (
-    <>loading</>
+  return (
+    <div className={styles["map"]}>
+      {isLoaded ? (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={zoom}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          options={{
+            styles: mapStyles,
+            disableDefaultUI: true,
+          }}
+        >
+          {/* Child components, such as markers, info windows, etc. */}
+          <></>
+        </GoogleMap>
+      ) : (
+        <>loading</>
+      )}
+    </div>
   );
 }

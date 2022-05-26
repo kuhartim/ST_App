@@ -3,6 +3,7 @@ import Router, { useRouter } from "next/router";
 
 import Map from "../components/Map";
 import SpotList from "../components/SpotList";
+import Title from "../components/Title";
 
 import { getSpots } from "../services/api";
 
@@ -19,14 +20,25 @@ export default function Home({
 }) {
   return (
     <div className={styles["home"]}>
-      <SpotList
-        spots={spots}
-        page={page}
-        maxPage={maxPage}
-        perPage={perPage}
-        sortBy={sortBy}
-        sortType={sortType}
-      />
+      <div className={styles["home__container"]}>
+        <Title
+          title="Choose location on map"
+          subtitle="Where is your perfect location?"
+        />
+        <Map apiKey={apiKey} />
+        <Title
+          title="Find your perfect location"
+          subtitle="Search for a location that you knew about, just forgot where it is"
+        />
+        <SpotList
+          spots={spots}
+          page={page}
+          maxPage={maxPage}
+          perPage={perPage}
+          sortBy={sortBy}
+          sortType={sortType}
+        />
+      </div>
     </div>
   );
 }

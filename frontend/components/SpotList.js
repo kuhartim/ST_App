@@ -30,10 +30,6 @@ export default function SpotList({
 
   return (
     <div className={styles["spot-list"]}>
-      <h2 className={styles["spot-list__text"]}>Photo locations</h2>
-      <span className={styles["spot-list__text"]}>
-        Find your next location for your photo
-      </span>
       <div className={styles["spot-list__list"]}>
         {spots.map((spot, i) => (
           <SpotElement spot={spot} key={i} />
