@@ -1,0 +1,40 @@
+@import "../variables";
+
+.spot-element {
+  background-color: $color-secondary;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  margin: 1rem 0;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    background-color: rgba($color-secondary, 0.75);
+  }
+
+  &__field {
+    color: white;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 1.1em;
+  }
+
+  &__description {
+    font-weight: 400;
+    font-size: 0.9em;
+    margin: 0.5rem 0;
+  }
+
+  &__publisher {
+    font-weight: 300;
+    font-size: 0.75em;
+    margin-top: 0.25rem;
+  }
+}

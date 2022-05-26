@@ -1,0 +1,51 @@
+@import "../variables";
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $color-primary;
+  display: flex;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+
+  &__list {
+    display: flex;
+
+    &-element {
+      list-style: none;
+      display: flex;
+
+      &-link {
+        text-decoration: none;
+        padding: 0.75rem 1rem;
+        color: rgb(200, 200, 200);
+        text-transform: uppercase;
+        font-size: 0.8em;
+        font-weight: 300;
+
+        &:hover {
+          color: white;
+          font-weight: 400;
+        }
+
+        &--active {
+          color: white;
+          font-weight: 400;
+          position: relative;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 70%;
+            width: calc(100% - 2rem);
+            left: 1rem;
+            height: 0.1rem;
+            background-color: $color-red;
+          }
+        }
+      }
+    }
+  }
+}

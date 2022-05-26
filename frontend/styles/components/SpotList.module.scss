@@ -1,0 +1,14 @@
+.spot-list {
+  width: 80%;
+  max-width: 50rem;
+
+  &__text {
+    color: white;
+  }
+
+  &__list {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
