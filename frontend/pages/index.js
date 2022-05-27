@@ -17,6 +17,7 @@ export default function Home({
   maxPage,
   sortBy,
   sortType,
+  search,
 }) {
   return (
     <div className={styles["home"]}>
@@ -25,7 +26,7 @@ export default function Home({
           title="Choose location on map"
           subtitle="Where is your perfect location?"
         />
-        <Map apiKey={apiKey} />
+        <Map apiKey={apiKey} markers={spots} />
         <Title
           title="Find your perfect location"
           subtitle="Search for a location that you knew about, just forgot where it is"
@@ -37,6 +38,7 @@ export default function Home({
           perPage={perPage}
           sortBy={sortBy}
           sortType={sortType}
+          search={search}
         />
       </div>
     </div>
@@ -52,8 +54,9 @@ export async function getServerSideProps(context) {
   const sortType = query["sortType"] || "desc";
   const page = Number(query["page"]) || 1;
   const perPage = Number(query["perPage"]) || 5;
+  const search = query["search"] || null;
 
-  const response = await getSpots(sortBy, sortType, page, perPage);
+  const response = await getSpots(sortBy, sortType, page, perPage, search);
   const data = response.data;
 
   const maxPage = data["max_page"];
@@ -67,6 +70,7 @@ export async function getServerSideProps(context) {
       sortType,
       page,
       perPage,
+      search,
       apiKey: process.env.GOOGLE_MAPS_API,
     },
   };

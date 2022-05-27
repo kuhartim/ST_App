@@ -1,11 +1,12 @@
-import { useState, memo, useCallback } from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { useState, memo, useCallback, useEffect } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import Router from "next/router";
 
 import styles from "../styles/components/Map.module.scss";
 
 const containerStyle = {
-  width: "600px",
-  height: "500px",
+  width: "100%",
+  height: "100%",
 };
 
 const center = {
@@ -17,24 +18,16 @@ const zoom = 8;
 
 const mapStyles = require("../settings/MapStyles.json");
 
-export default function Map({ apiKey }) {
+export default function Map({ apiKey, markers }) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: apiKey,
     language: "sl",
   });
 
-  const [map, setMap] = useState(null);
-
-  const onLoad = useCallback((map) => {
-    // const bounds = new window.google.maps.LatLngBounds(center);
-    // map.fitBounds(bounds);
-    setMap(map);
-  }, []);
-
-  const onUnmount = useCallback((map) => {
-    setMap(null);
-  }, []);
+  const redirectToSpotPage = (spotId) => {
+    Router.push(`/spot/${spotId}`);
+  };
 
   return (
     <div className={styles["map"]}>
@@ -43,18 +36,27 @@ export default function Map({ apiKey }) {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={zoom}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
           options={{
             styles: mapStyles,
             disableDefaultUI: true,
           }}
         >
-          {/* Child components, such as markers, info windows, etc. */}
-          <></>
+          {markers.map((marker) => (
+            <Marker
+              key={marker.id}
+              position={{ lat: marker.lat, lng: marker.lon }}
+              icon={{
+                url: "/static/icons/camera.png",
+                scaledSize: new window.google.maps.Size(20, 17),
+              }}
+              onClick={() => {
+                redirectToSpotPage(marker.id);
+              }}
+            />
+          ))}
         </GoogleMap>
       ) : (
-        <>loading</>
+        <div>Loading...</div>
       )}
     </div>
   );

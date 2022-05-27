@@ -109,7 +109,7 @@ export function updateSpot(
     .catch(handleUnauthorized);
 }
 
-export function getSpots(sortBy, sortType, page, perPage) {
+export function getSpots(sortBy, sortType, page, perPage, search) {
   return backend
     .get("/api/spots.php", {
       params: {
@@ -117,6 +117,7 @@ export function getSpots(sortBy, sortType, page, perPage) {
         sort_type: sortType,
         page: page,
         per_page: perPage,
+        search: search,
       },
     })
     .catch(handleUnauthorized);
