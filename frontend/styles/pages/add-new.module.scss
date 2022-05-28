@@ -1,0 +1,143 @@
+@import "../variables";
+
+.add-new {
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+
+  &__container {
+    width: 80%;
+    max-width: 50rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__title {
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  &__subtitle {
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  &__step {
+    width: 100%;
+    flex-direction: column;
+    display: none;
+
+    &--show {
+      display: flex;
+    }
+  }
+
+  &__input-field {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    text-align: left !important;
+    padding: 0 0.5rem;
+
+    &--textarea {
+      height: 10rem !important;
+      resize: none;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__photos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+    margin: 1rem 0;
+    width: 100%;
+    max-width: 50rem;
+  }
+
+  &__add-photo-button {
+    width: 100%;
+    text-align: left !important;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    color: white;
+    background-color: $color-secondary;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    height: 10rem;
+    position: relative;
+
+    &::before {
+      content: "+";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      background-color: $color-primary;
+      height: 2rem;
+      width: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+  }
+
+  &__photo-container {
+    width: 100%;
+    height: 10rem;
+    position: relative;
+    cursor: pointer;
+    margin: auto;
+
+    &:hover {
+      &::before {
+        z-index: 1;
+        content: "X";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: white;
+        background-color: $color-red;
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 0.5rem;
+      }
+    }
+  }
+
+  &__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+
+  &__add-photo-input {
+    visibility: hidden;
+  }
+}

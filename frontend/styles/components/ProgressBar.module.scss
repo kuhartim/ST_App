@@ -1,0 +1,40 @@
+@import "../variables";
+
+.progress-bar {
+  display: flex;
+  width: 100%;
+  max-width: 20rem;
+  justify-content: space-between;
+  position: relative;
+  margin: 1rem 0;
+
+  &__step {
+    border: 2px solid $color-secondary;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    background-color: $color-primary;
+    z-index: 1;
+
+    &--active {
+      background-color: $color-secondary;
+    }
+  }
+
+  &::before {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: $color-secondary;
+    transform: translateY(-50%);
+  }
+}

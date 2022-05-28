@@ -18,7 +18,7 @@ const zoom = 8;
 
 const mapStyles = require("../settings/MapStyles.json");
 
-export default function Map({ apiKey, markers }) {
+export default function Map({ apiKey, markers, onClick }) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: apiKey,
@@ -36,24 +36,35 @@ export default function Map({ apiKey, markers }) {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={zoom}
+          onClick={(ev) => {
+            onClick({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
+          }}
           options={{
             styles: mapStyles,
             disableDefaultUI: true,
+            draggableCursor: "pointer",
+            draggingCursor: "pointer",
           }}
         >
-          {markers.map((marker) => (
-            <Marker
-              key={marker.id}
-              position={{ lat: marker.lat, lng: marker.lon }}
-              icon={{
-                url: "/static/icons/camera.png",
-                scaledSize: new window.google.maps.Size(20, 17),
-              }}
-              onClick={() => {
-                redirectToSpotPage(marker.id);
-              }}
-            />
-          ))}
+          {markers.map((marker, i) => {
+            console.log(marker);
+            return (
+              <Marker
+                key={marker.id || i}
+                position={{ lat: Number(marker.lat), lng: Number(marker.lon) }}
+                // icon={{
+                //   url: "/static/icons/camera.png",
+                //   scaledSize: new window.google.maps.Size(20, 17),
+                // }}
+                onClick={() => {
+                  marker.id && redirectToSpotPage(marker.id);
+                }}
+                onLoad={() => {
+                  console.log("marker loaded");
+                }}
+              />
+            );
+          })}
         </GoogleMap>
       ) : (
         <div>Loading...</div>

@@ -13,6 +13,7 @@ export default function InputField({
   value: outsideValue,
   onChange: outsideOnChange,
   className,
+  isTextArea,
 }) {
   const [value, setValue] = useState("");
 
@@ -31,31 +32,56 @@ export default function InputField({
 
   return !outsideOnChange ? (
     <form onSubmit={submit} className={styles["input-field"]}>
-      <input
-        type={type || "text"}
-        onChange={onValueChange}
-        value={value}
-        placeholder={placeholderText}
-        className={clsx(
-          styles["input-field__field"],
-          colorType == "dark" && styles["input-field__field--dark"]
-        )}
-      />
+      {!isTextArea ? (
+        <input
+          type={type || "text"}
+          onChange={onValueChange}
+          value={value}
+          placeholder={placeholderText}
+          className={clsx(
+            styles["input-field__field"],
+            colorType == "dark" && styles["input-field__field--dark"]
+          )}
+        />
+      ) : (
+        <textarea
+          onChange={onValueChange}
+          value={value}
+          placeholder={placeholderText}
+          className={clsx(
+            styles["input-field__field"],
+            colorType == "dark" && styles["input-field__field--dark"]
+          )}
+        />
+      )}
       {children}
     </form>
   ) : (
     <>
-      <input
-        type={type || "text"}
-        onChange={outsideOnChange}
-        value={outsideValue}
-        placeholder={placeholderText}
-        className={clsx(
-          styles["input-field__field"],
-          colorType == "dark" && styles["input-field__field--dark"],
-          className
-        )}
-      />
+      {!isTextArea ? (
+        <input
+          type={type || "text"}
+          onChange={outsideOnChange}
+          value={outsideValue}
+          placeholder={placeholderText}
+          className={clsx(
+            styles["input-field__field"],
+            colorType == "dark" && styles["input-field__field--dark"],
+            className
+          )}
+        />
+      ) : (
+        <textarea
+          onChange={outsideOnChange}
+          value={outsideValue}
+          placeholder={placeholderText}
+          className={clsx(
+            styles["input-field__field"],
+            colorType == "dark" && styles["input-field__field--dark"],
+            className
+          )}
+        />
+      )}
       {children}
     </>
   );

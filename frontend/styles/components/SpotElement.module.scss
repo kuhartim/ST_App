@@ -1,6 +1,7 @@
 @import "../variables";
 
 .spot-element {
+  position: relative;
   background-color: $color-secondary;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   margin: 1rem 0;
@@ -41,5 +42,35 @@
   &__created {
     font-size: 0.5em;
     margin-top: 0.25rem;
+  }
+
+  &__settings {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 1rem;
+  }
+
+  &__delete {
+    background-color: $color-red;
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 0.8em;
+    padding: 0.3rem;
+
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  &__edit {
+    background-color: $color-primary;
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 0.8em;
+    padding: 0.3rem;
+    margin-left: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
   }
 }

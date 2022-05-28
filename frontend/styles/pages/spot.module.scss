@@ -85,9 +85,11 @@
     justify-content: center;
     flex-direction: column;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: filter 0.2s;
 
     &:hover {
       box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+      filter: brightness(0.9);
     }
 
     &-plus {

@@ -7,16 +7,19 @@ export default function Button({
   type,
   className,
   colorType,
+  disabled,
 }) {
   return (
     <button
       className={clsx(
         styles["button"],
         className,
-        colorType == "dark" && styles["button--dark"]
+        colorType == "dark" && styles["button--dark"],
+        disabled && styles["button--disabled"]
       )}
       onClick={onClick}
       type={type}
+      disabled={disabled}
     >
       {children}
     </button>

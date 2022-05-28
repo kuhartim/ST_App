@@ -1,7 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
+import Router, { useRouter } from "next/router";
 
 import clsx from "clsx";
+
+import { deleteSpot as apiDelete } from "../services/api";
 
 import styles from "../styles/components/SpotElement.module.scss";
 
@@ -34,6 +37,21 @@ function timeSince(date) {
 
 export default function SpotElement({ spot }) {
   const date = timeSince(new Date(spot.created).getTime());
+  const router = useRouter();
+
+  const deleteSpot = async (e) => {
+    e.preventDefault();
+    console.log(spot.id);
+    await apiDelete(spot.id);
+    Router.push({
+      pathname: Router.pathname,
+      query: Router.query,
+    });
+  };
+
+  const editSpot = () => {
+    console.log("edit");
+  };
   return (
     //<Link href={{ pathname: '/search', query: { keyword: 'this way' } }}>
     <Link href={`/spot/${spot.id}`}>
@@ -52,7 +70,9 @@ export default function SpotElement({ spot }) {
             styles["spot-element__field"]
           )}
         >
-          {spot.description}
+          {spot.description.length > 100
+            ? spot.description.substring(0, 100) + "..."
+            : spot.description}
         </span>
         <span
           className={clsx(
@@ -70,6 +90,21 @@ export default function SpotElement({ spot }) {
         >
           {date + " ago"}
         </span>
+        <div className={styles["spot-element__settings"]}>
+          {router.pathname == "/my-spots" && (
+            <button
+              className={styles["spot-element__delete"]}
+              onClick={deleteSpot}
+            >
+              Delete
+            </button>
+          )}
+          {router.pathname == "/my-spots" && (
+            <button className={styles["spot-element__edit"]} onClick={editSpot}>
+              Edit
+            </button>
+          )}
+        </div>
       </a>
     </Link>
   );

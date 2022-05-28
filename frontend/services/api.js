@@ -41,8 +41,8 @@ export function deleteUser() {
   return backend.delete(`/api/users.php`).catch(handleUnauthorized);
 }
 
-export function recoverToken() {
-  const token = Cookies.get("Token");
+export function recoverToken(newToken) {
+  const token = newToken || Cookies.get("Token");
   if (!token) return false;
   backend.defaults.headers.common.Authorization = `Bearer ${token}`;
   return true;
@@ -116,7 +116,7 @@ export function updateSpot(
     .catch(handleUnauthorized);
 }
 
-export function getSpots(sortBy, sortType, page, perPage, search) {
+export function getSpots(sortBy, sortType, page, perPage, search, userId) {
   return backend
     .get("/api/spots.php", {
       params: {
@@ -125,6 +125,7 @@ export function getSpots(sortBy, sortType, page, perPage, search) {
         page: page,
         per_page: perPage,
         search: search,
+        user_id: userId,
       },
     })
     .catch(handleUnauthorized);
@@ -142,12 +143,12 @@ export function getSpot(spotId) {
 
 export function deleteSpot(id) {
   return backend
-    .delete("/api/spots.php", { spot_id: id })
+    .delete("/api/spots.php", { data: { spot_id: id } })
     .catch(handleUnauthorized);
 }
 
 // HANDLER
 function handleUnauthorized(err) {
-  if (err.response && err.response.status === 403) throw false;
+  if (err.response && err.response.status === 403) throw "unauthorized";
   throw err;
 }
