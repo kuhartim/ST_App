@@ -8,9 +8,11 @@ import Map from "../../components/Map";
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 
+import withAuth from "../../middleware/withAuth";
+
 import { createSpot } from "../../services/api";
 
-export default function AddNew({ apiKey }) {
+function AddNew({ apiKey }) {
   const [step, setStep] = useState(1);
   const [markers, setMarkers] = useState([]);
   const [position, setPosition] = useState(null);
@@ -165,3 +167,5 @@ export function getServerSideProps(context) {
     },
   };
 }
+
+export default withAuth(AddNew);

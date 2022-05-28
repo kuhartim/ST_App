@@ -51,14 +51,14 @@ function Spot({ spot, apiKey }) {
                 onClick={() => onImageClick(image.image)}
               />
             ))}
-            {isLoggedIn && (
+            {/* {isLoggedIn && (
               <div className={styles["spot__add-image"]}>
                 <span className={styles["spot__add-image-plus"]}>+</span>
                 <span className={styles["spot__add-image-text"]}>
                   Add your image here!
                 </span>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <span className={styles["spot__subtitle"]}>

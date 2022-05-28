@@ -18,6 +18,8 @@ function Header() {
   const { isLoggedIn, user, setIsLoggedIn, setUser } =
     useContext(SessionContext);
 
+  console.log(user);
+
   const logoutUser = async () => {
     try {
       await logout();

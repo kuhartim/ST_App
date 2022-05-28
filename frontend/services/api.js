@@ -94,12 +94,14 @@ export function createSpot(lon, lat, title, description, images) {
 }
 
 export function updateSpot(
+  id,
   title = null,
   description = null,
   images = [],
   removedImages = []
 ) {
   const formData = new FormData();
+  formData.append("spot_id", id);
   if (title) formData.append("title", title);
   if (description) formData.append("description", description);
   if (images.length)
@@ -110,7 +112,7 @@ export function updateSpot(
     formData.append("removed_images", JSON.stringify(removedImages));
 
   return backend
-    .post("/api/spots.php", formData, {
+    .put("/api/spots.php", formData, {
       headers: { "content-type": "multipart/form-data" },
     })
     .catch(handleUnauthorized);

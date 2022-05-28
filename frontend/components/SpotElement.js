@@ -100,9 +100,11 @@ export default function SpotElement({ spot }) {
             </button>
           )}
           {router.pathname == "/my-spots" && (
-            <button className={styles["spot-element__edit"]} onClick={editSpot}>
-              Edit
-            </button>
+            <Link href={`/spot/edit/${spot.id}`}>
+              <a className={styles["spot-element__edit"]} onClick={editSpot}>
+                Edit
+              </a>
+            </Link>
           )}
         </div>
       </a>
