@@ -130,6 +130,16 @@ export function getSpots(sortBy, sortType, page, perPage, search) {
     .catch(handleUnauthorized);
 }
 
+export function getSpot(spotId) {
+  return backend
+    .get("/api/spots.php", {
+      params: {
+        id: spotId,
+      },
+    })
+    .catch(handleUnauthorized);
+}
+
 export function deleteSpot(id) {
   return backend
     .delete("/api/spots.php", { spot_id: id })
