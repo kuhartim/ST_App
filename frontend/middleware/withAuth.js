@@ -1,21 +1,30 @@
 import { useMemo, useContext } from "react";
 import { useRouter } from "next/router";
 
-import { recoverToken, isLoggedIn } from "../services/api";
+import { recoverToken, isLoggedIn, me } from "../services/api";
 import { SessionContext } from "../pages/_app.js";
 
 function withAuth(Component, silent) {
   return (props) => {
     const router = useRouter();
     const session = useContext(SessionContext);
-    const hasToken = useMemo(() => {
+    const hasToken = useMemo(async () => {
       if (!isLoggedIn()) {
-        const username = recoverToken();
-        if (username) {
-          session.setIsLoggedIn(true);
-          session.setUser(username);
+        if (recoverToken()) {
+          try {
+            const user = await me();
+            session.setIsLoggedIn(true);
+            session.setUser(user.data);
+          } catch (err) {
+            session.setIsLoggedIn(false);
+            session.setUser(null);
+          }
         } else {
-          router.push("/login");
+          if (silent) return false;
+
+          router.push({
+            pathname: "/login",
+          });
           return false;
         }
       }

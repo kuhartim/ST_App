@@ -35,12 +35,11 @@ export default function Register() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(username, password, confirmPassword);
     try {
       await registration(username, password, confirmPassword);
-      await login(username, password);
+      const user = await login(username, password);
       setIsLoggedIn(true);
-      setUser(username);
+      setUser(user.data);
       Router.push({
         pathname: "/",
       });

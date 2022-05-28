@@ -5,13 +5,15 @@ import clsx from "clsx";
 
 import styles from "../styles/components/Header.module.scss";
 
+import withAuth from "../middleware/withAuth";
+
 import Button from "../components/Button";
 
 import { SessionContext } from "../pages/_app";
 
 import { logout, recoverToken } from "../services/api";
 
-export default function Header() {
+function Header() {
   const router = useRouter();
   const { isLoggedIn, user, setIsLoggedIn, setUser } =
     useContext(SessionContext);
@@ -26,14 +28,6 @@ export default function Header() {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    const username = recoverToken();
-    if (username) {
-      setIsLoggedIn(true);
-      setUser(username);
-    }
-  }, []);
 
   return ["/register", "/login"].includes(router.pathname) ? (
     <></>
@@ -70,7 +64,9 @@ export default function Header() {
       <div className={styles["header__user"]}>
         {isLoggedIn ? (
           <>
-            <span className={styles["header__user-name"]}>{user}</span>
+            <span className={styles["header__user-name"]}>
+              {user?.username}
+            </span>
             <Button
               className={styles["header__user-button"]}
               onClick={() => {
@@ -100,3 +96,5 @@ export default function Header() {
     </nav>
   );
 }
+
+export default withAuth(Header, true);

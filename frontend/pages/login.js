@@ -30,9 +30,9 @@ export default function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(username, password);
+      const user = await login(username, password);
       setIsLoggedIn(true);
-      setUser(username);
+      setUser(user.data);
       Router.push({
         pathname: "/",
       });
