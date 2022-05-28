@@ -7,6 +7,7 @@ import SpotElement from "./SpotElement";
 import Pagination from "./Pagination";
 import InputField from "./InputField";
 import Selection from "./Selection";
+import Button from "./Button";
 
 import styles from "../styles/components/SpotList.module.scss";
 
@@ -83,11 +84,9 @@ export default function SpotList({
   return (
     <div className={styles["spot-list"]}>
       <div className={styles["spot-list__settings"]}>
-        <InputField
-          onSubmit={onSearch}
-          buttonText="Search"
-          placeholderText="Search string"
-        />
+        <InputField onSubmit={onSearch} placeholderText="Search string">
+          <Button type="submit">Search</Button>
+        </InputField>
         <Selection
           fields={selectionOptions}
           primarySelectedIndex={0}

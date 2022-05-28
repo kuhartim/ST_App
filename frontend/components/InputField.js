@@ -1,8 +1,19 @@
 import { useState, useCallback } from "react";
+import clsx from "clsx";
 import Button from "./Button";
 import styles from "../styles/components/InputField.module.scss";
 
-export default function InputField({ buttonText, placeholderText, onSubmit }) {
+export default function InputField({
+  buttonText,
+  placeholderText,
+  onSubmit,
+  children,
+  colorType,
+  type,
+  value: outsideValue,
+  onChange: outsideOnChange,
+  className,
+}) {
   const [value, setValue] = useState("");
 
   const onValueChange = useCallback(
@@ -18,15 +29,34 @@ export default function InputField({ buttonText, placeholderText, onSubmit }) {
     onSubmit(value);
   };
 
-  return (
+  return !outsideOnChange ? (
     <form onSubmit={submit} className={styles["input-field"]}>
       <input
-        type="text"
+        type={type || "text"}
         onChange={onValueChange}
+        value={value}
         placeholder={placeholderText}
-        className={styles["input-field__field"]}
+        className={clsx(
+          styles["input-field__field"],
+          colorType == "dark" && styles["input-field__field--dark"]
+        )}
       />
-      <Button type="submit">{buttonText}</Button>
+      {children}
     </form>
+  ) : (
+    <>
+      <input
+        type={type || "text"}
+        onChange={outsideOnChange}
+        value={outsideValue}
+        placeholder={placeholderText}
+        className={clsx(
+          styles["input-field__field"],
+          colorType == "dark" && styles["input-field__field--dark"],
+          className
+        )}
+      />
+      {children}
+    </>
   );
 }

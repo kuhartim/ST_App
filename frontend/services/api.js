@@ -9,7 +9,7 @@ const backend = axios.create({ baseURL: "http://localhost/backend" });
 export async function login(username, password) {
   // add expires to backend response
   const {
-    data: { token },
+    data: { token, expire },
   } = await backend
     .post("/api/login.php", { username, password })
     .catch(handleUnauthorized);
@@ -17,7 +17,7 @@ export async function login(username, password) {
   if (!token) throw Error("No Token");
 
   Cookies.set("Token", token, {
-    expires: Date.now() + 2 * 60 * 60 * 1000,
+    expires: Date.now() + expire,
     secure: process.env.NODE_ENV === "production",
   });
 
@@ -51,6 +51,9 @@ export function registration(username, password, passwordConfirm) {
       username,
       password,
       confirm_password: passwordConfirm,
+    })
+    .then(() => {
+      login(username, password);
     })
     .catch(handleUnauthorized);
 }

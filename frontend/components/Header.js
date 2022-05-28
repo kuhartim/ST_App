@@ -6,8 +6,9 @@ import styles from "../styles/components/Header.module.scss";
 
 export default function Header() {
   const router = useRouter();
-
-  return (
+  return ["/register", "/login"].includes(router.pathname) ? (
+    <></>
+  ) : (
     <nav className={styles["header"]}>
       <ul className={styles["header__list"]}>
         <li className={styles["header__list-element"]}>
