@@ -1,13 +1,15 @@
 import Head from "next/head";
 import Router from "next/router";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
+
+import { SessionContext } from "./_app";
 
 import Card from "../components/Card";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
-import { registration } from "../services/api";
+import { registration, login } from "../services/api";
 
 import styles from "../styles/pages/register.module.scss";
 
@@ -15,6 +17,8 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { setIsLoggedIn, setUser } = useContext(SessionContext);
 
   const onUsernameChange = useCallback(
     ({ target: { value } }) => setUsername(value),
@@ -33,11 +37,16 @@ export default function Register() {
     e.preventDefault();
     console.log(username, password, confirmPassword);
     try {
-      const response = await registration(username, password, confirmPassword);
+      await registration(username, password, confirmPassword);
+      await login(username, password);
+      setIsLoggedIn(true);
+      setUser(username);
       Router.push({
         pathname: "/",
       });
     } catch (err) {
+      setIsLoggedIn(false);
+      setUser(null);
       console.error(err);
     }
   };

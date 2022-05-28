@@ -1,19 +1,22 @@
 import Head from "next/head";
 import Router from "next/router";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 
 import Card from "../components/Card";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
 import { login } from "../services/api";
+import { SessionContext } from "./_app";
 
 import styles from "../styles/pages/login.module.scss";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setIsLoggedIn, setUser } = useContext(SessionContext);
 
   const onUsernameChange = useCallback(
     ({ target: { value } }) => setUsername(value),
@@ -27,11 +30,15 @@ export default function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(username, password);
+      await login(username, password);
+      setIsLoggedIn(true);
+      setUser(username);
       Router.push({
         pathname: "/",
       });
     } catch (err) {
+      setIsLoggedIn(false);
+      setUser(null);
       console.error(err);
     }
   };

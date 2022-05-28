@@ -21,13 +21,20 @@ export async function login(username, password) {
     secure: process.env.NODE_ENV === "production",
   });
 
+  Cookies.set("username", username, {
+    expires: Date.now() + expire,
+    secure: process.env.NODE_ENV === "production",
+  });
+
   backend.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
 
 export function logout() {
   Cookies.remove("Token");
+  Cookies.remove("username");
+  const response = backend.post("/api/logout.php").catch(handleUnauthorized);
   backend.defaults.headers.common.Authorization = "";
-  return backend.post("/api/logout.php").catch(handleUnauthorized);
+  return response;
 }
 
 export function deleteUser() {
@@ -36,9 +43,10 @@ export function deleteUser() {
 
 export function recoverToken() {
   const token = Cookies.get("Token");
+  const username = Cookies.get("username");
   if (!token) return false;
   backend.defaults.headers.common.Authorization = `Bearer ${token}`;
-  return true;
+  return username;
 }
 
 export function isLoggedIn() {
@@ -51,9 +59,6 @@ export function registration(username, password, passwordConfirm) {
       username,
       password,
       confirm_password: passwordConfirm,
-    })
-    .then(() => {
-      login(username, password);
     })
     .catch(handleUnauthorized);
 }

@@ -1,11 +1,40 @@
 import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 
 import styles from "../styles/components/Header.module.scss";
 
+import Button from "../components/Button";
+
+import { SessionContext } from "../pages/_app";
+
+import { logout, recoverToken } from "../services/api";
+
 export default function Header() {
   const router = useRouter();
+  const { isLoggedIn, user, setIsLoggedIn, setUser } =
+    useContext(SessionContext);
+
+  const logoutUser = async () => {
+    try {
+      await logout();
+      setIsLoggedIn(false);
+      setUser(null);
+      router.push("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const username = recoverToken();
+    if (username) {
+      setIsLoggedIn(true);
+      setUser(username);
+    }
+  }, []);
+
   return ["/register", "/login"].includes(router.pathname) ? (
     <></>
   ) : (
@@ -38,6 +67,36 @@ export default function Header() {
           </Link>
         </li>
       </ul>
+      <div className={styles["header__user"]}>
+        {isLoggedIn ? (
+          <>
+            <span className={styles["header__user-name"]}>{user}</span>
+            <Button
+              className={styles["header__user-button"]}
+              onClick={() => {
+                logoutUser();
+              }}
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <Link href="/login">
+              <a>
+                <Button className={styles["header__user-button"]}>Login</Button>
+              </a>
+            </Link>
+            <Link href="/register">
+              <a>
+                <Button className={styles["header__user-button"]}>
+                  Register
+                </Button>
+              </a>
+            </Link>
+          </>
+        )}
+      </div>
     </nav>
   );
 }

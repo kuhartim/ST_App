@@ -1,27 +1,27 @@
 import { useMemo, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 
 import { recoverToken, isLoggedIn } from "../services/api";
 import { SessionContext } from "../pages/_app.js";
 
 function withAuth(Component, silent) {
   return (props) => {
+    const router = useRouter();
     const session = useContext(SessionContext);
-
-    const navigate = useNavigate();
-
     const hasToken = useMemo(() => {
       if (!isLoggedIn()) {
-        if (recoverToken()) {
+        const username = recoverToken();
+        if (username) {
           session.setIsLoggedIn(true);
+          session.setUser(username);
         } else {
-          navigate("/login");
+          router.push("/login");
           return false;
         }
       }
 
       return true;
-    }, [history, session]);
+    }, [session]);
 
     return hasToken || silent ? <Component {...props} /> : null;
   };

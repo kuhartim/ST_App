@@ -7,6 +7,7 @@
   width: 100%;
   background-color: $color-primary;
   display: flex;
+  justify-content: space-between;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 
@@ -46,6 +47,22 @@
           }
         }
       }
+    }
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+
+    &-name {
+      color: white;
+    }
+
+    &-button {
+      height: max-content !important;
+      margin-left: 0.5rem !important;
+      padding: 0.25rem 0.75rem !important;
     }
   }
 }
