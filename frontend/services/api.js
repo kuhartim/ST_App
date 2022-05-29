@@ -3,7 +3,7 @@ import axios from "axios";
 
 import Cookies from "js-cookie";
 
-const backend = axios.create({ baseURL: "http://localhost/backend" });
+const backend = axios.create({ baseURL: "http://localhost:8000" });
 
 //USERS
 export async function login(username, password) {
