@@ -54,7 +54,7 @@
 
   &__photos {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-gap: 1rem;
     margin: 1rem 0;
     width: 100%;
@@ -139,5 +139,13 @@
 
   &__add-photo-input {
     visibility: hidden;
+  }
+}
+
+@media (min-width: 700px) {
+  .edit {
+    &__photos {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }

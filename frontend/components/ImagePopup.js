@@ -18,7 +18,7 @@ function ImagePopup({ image, isOpen, onClose }) {
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, [close]);
+  }, [onClose]);
 
   return (
     <div

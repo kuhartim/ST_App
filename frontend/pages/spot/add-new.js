@@ -19,6 +19,7 @@ function AddNew({ apiKey }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
+  const [markerChange, setMarkerChange] = useState(0);
 
   const onTitleChange = useCallback(
     ({ target: { value } }) => {
@@ -38,16 +39,21 @@ function AddNew({ apiKey }) {
     ({ target: { files } }) => {
       setImages([...images, ...files]);
     },
-    [setImages]
+    [setImages, images]
   );
 
   const onMapClick = useCallback(
     (marker) => {
-      setMarkers([marker]);
+      const newMarker = {
+        lat: marker.lat,
+        lon: marker.lng,
+        id: markerChange,
+      };
+      setMarkers([newMarker]);
       setPosition(marker);
-      console.log(markers);
+      setMarkerChange(markerChange + 1);
     },
-    [markers]
+    [setMarkers, setPosition, markers, markerChange]
   );
 
   const removeImage = useCallback(
@@ -131,11 +137,11 @@ function AddNew({ apiKey }) {
           <div className={styles["add-new__photos"]}>
             {images.map((image, index) => (
               <div
+                key={index}
                 className={styles["add-new__photo-container"]}
                 onClick={() => removeImage(index)}
               >
                 <img
-                  key={index}
                   src={URL.createObjectURL(image)}
                   alt="photo"
                   className={styles["add-new__photo"]}

@@ -12,7 +12,6 @@ import withAuth from "../../../middleware/withAuth";
 import { updateSpot, getSpot } from "../../../services/api";
 
 function AddNew({ spot }) {
-  console.log(spot);
   const [step, setStep] = useState(1);
   const [title, setTitle] = useState(spot.title);
   const [description, setDescription] = useState(spot.description);
@@ -43,7 +42,7 @@ function AddNew({ spot }) {
     ({ target: { files } }) => {
       setImages([...images, ...files]);
     },
-    [setImages]
+    [setImages, images]
   );
 
   const removeImage = useCallback(
@@ -127,6 +126,7 @@ function AddNew({ spot }) {
             {images &&
               images.map((image, index) => (
                 <div
+                  key={index}
                   className={styles["edit__photo-container"]}
                   onClick={() => {
                     if (image.image) {
